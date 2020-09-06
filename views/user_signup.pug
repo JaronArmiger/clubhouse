@@ -1,4 +1,22 @@
 extends layout
 
 block content
-  h1 Sign Up
+  h1= title
+
+  form(method='POST' action='')
+    div.form-group
+      label(for='first_name') First Name:
+      input#first_name.form-control(type='text' name='first_name' value=(undefined===user ? '' : user.first_name))
+    div.form-group
+      label(for='last_name') Last Name:
+      input#last_name.form-control(type='text' name='last_name' value=(undefined===user ? '' : user.last_name))
+    div.form-group
+      label(for='username') Username:
+      input#first_name.form-control(type='text' name='username' value=(undefined===user ? '' : user.username))
+    div.form-group
+      label(for='password') Password:
+      input#password.form-control(type='text' name='password' value=(undefined===user ? '' : user.password))
+    div.form-group
+      label(for='password_confirmation') Confirm Password:
+      input#password.form-control(type='text' name='password_confirmation')
+    button(type='submit') Sign up
