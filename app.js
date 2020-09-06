@@ -5,8 +5,17 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var sassMiddleware = require('node-sass-middleware');
 var nconf = require('nconf');
+var mongoose = require('mongoose');
 
 nconf.file({file: 'config.json'});
+const db_uri = nconf.get('MONGODB_URI');
+mongoose.connect(db_uri, { 
+  useNewUrlParse: true,
+  userUnifiedTopology: true
+});
+
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, "MongoDB connection error:"));
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
