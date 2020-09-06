@@ -10,8 +10,8 @@ var mongoose = require('mongoose');
 nconf.file({file: 'config.json'});
 const db_uri = nconf.get('MONGODB_URI');
 mongoose.connect(db_uri, { 
-  useNewUrlParse: true,
-  userUnifiedTopology: true
+  useNewUrlParser: true,
+  useUnifiedTopology: true
 });
 
 var db = mongoose.connection;
