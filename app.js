@@ -10,6 +10,8 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var crypto = require('crypto');
+var compression = require('compression');
+var helmet = require('helmet');
 
 var User = require('./models/user');
 
@@ -28,6 +30,7 @@ var usersRouter = require('./routes/users');
 var messagesRouter = require('./routes/messages');
 
 var app = express();
+app.use(helmet());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -88,6 +91,8 @@ app.use(function(req, res, next) {
   res.locals.currentUser = req.user;
   next();
 });
+
+app.use(compression());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
