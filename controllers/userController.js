@@ -57,7 +57,9 @@ exports.join_get = (req, res, next) => {
 }
 
 exports.join_post = (req, res, next) => {
-  
+  if (req.body.secret_code === "Ibuprofen") {
+  	
+  }
 }
 
 function validPassword(password, hash, salt) {

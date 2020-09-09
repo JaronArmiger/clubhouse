@@ -1,6 +1,7 @@
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
+var session = require('express-session');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var sassMiddleware = require('node-sass-middleware');
@@ -37,6 +38,50 @@ app.use(sassMiddleware({
   sourceMap: true
 }));
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(session({ 
+  secret: 'cats', 
+  resave: false,
+  saveUninitialized: true,
+}));
+
+passport.use(
+  new LocalStrategy((username, password, cb) => {
+    User.findOne({ username: username }, (err, user) => {
+      if (err) {
+        return cb(err);
+      }
+      if (!user) {
+        return cb(null, false, { msg: 'Incorrect username' });
+      }
+      const isValid = validPassword(password, user.hash, user.salt);
+      if (isValid) {
+        return cb(null, user);
+      } else {
+        return cb(null, false, { msg: 'Incorrect password' });
+      }
+    });
+  })
+);
+
+passport.serializeUser(function(user, cb) {
+  cb(null, user.id);
+});
+
+passport.deserializeUser(function(id, cb) {
+  User.findById(id, function (err, user) {
+    if (err) return cb(err);
+    cb(null, user);
+  });
+});
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use( function(req, res, next) {
+  res.locals.currentUser = req.user;
+  next();
+});
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
