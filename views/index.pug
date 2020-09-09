@@ -2,3 +2,12 @@ extends layout
 
 block content
   h1 Home
+  if list_messages
+    ul
+      each message in list_messages
+        li
+          h2 #{message.title}
+          p #{message.text}
+          if currentUser
+            p #{message.author.username}
+            p #{message.created_at}
