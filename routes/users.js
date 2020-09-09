@@ -11,6 +11,11 @@ router.post('/login', passport.authenticate('local', {
 	failureRedirect: '/'
 }));
 
+router.get('/logout', (req, res, next) => {
+  req.logout();
+  res.redirect('/');
+});
+
 router.get('/signup', user_controller.signup_get);
 router.post('/signup', user_controller.signup_post);
 

@@ -2,8 +2,12 @@ extends layout
 
 block content
   h1 Home
-  p
-    a(href='/users/login') log in
+  if currentUser
+    p
+      a(href='/users/logout') log out
+  else
+    p
+      a(href='/users/login') log in
   p
     a(href='/users/signup') sign up
   p
