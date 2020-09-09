@@ -6,7 +6,7 @@ var crypto = require('crypto');
 const passport = require('passport');
 
 exports.login_get = (req, res, next) => {
-  res.render('user_login', { title: 'Join the Club' });
+  res.render('user_login', { title: 'Log in' });
 }
 
 exports.signup_get = (req, res, next) => {

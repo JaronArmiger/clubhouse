@@ -1,0 +1,19 @@
+extends layout
+
+block content
+  h1= title
+
+  form(method='POST' action='')
+    div.form-group
+      label(for='title') Title:
+      input#title.form-control(type='text' name='title')
+    div.form-group
+      label(for='text') Message:
+      textarea#text.form-control(name='secret_code')
+    div.form-group
+      input#user_id.form-control(type='hidden' name='user_id' value=currentUser._id)
+    button(type='submit') Create
+  if errors
+    ul
+      each error in errors
+        li= error.msg
