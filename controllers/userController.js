@@ -3,6 +3,15 @@ const User = require('../models/user');
 const async = require('async');
 const validator = require('express-validator');
 var crypto = require('crypto');
+const passport = require('passport');
+
+exports.login_get = (req, res, next) => {
+  res.render('user_login', { title: 'Join the Club' });
+}
+
+exports.login_post = (req, res, next) => {
+  
+}
 
 exports.signup_get = (req, res, next) => {
   res.render('user_signup', { title: 'User Signup' })
@@ -58,14 +67,10 @@ exports.join_get = (req, res, next) => {
 
 exports.join_post = (req, res, next) => {
   if (req.body.secret_code === "Ibuprofen") {
-  	
+
   }
 }
 
-function validPassword(password, hash, salt) {
-  var hashVerify = crypto.pbkdf2Sync(password, salt, 10000, 64, 'sha512').toString('hex');
-  return hash === hashVerify;
-}
 
 function genPassword(password) {
   var salt = crypto.randomBytes(32).toString('hex');

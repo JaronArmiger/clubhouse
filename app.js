@@ -7,6 +7,11 @@ var logger = require('morgan');
 var sassMiddleware = require('node-sass-middleware');
 var nconf = require('nconf');
 var mongoose = require('mongoose');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+var crypto = require('crypto');
+
+var User = require('./models/user');
 
 nconf.file({file: 'config.json'});
 const db_uri = nconf.get('MONGODB_URI');
@@ -103,3 +108,8 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+
+function validPassword(password, hash, salt) {
+  var hashVerify = crypto.pbkdf2Sync(password, salt, 10000, 64, 'sha512').toString('hex');
+  return hash === hashVerify;
+}
