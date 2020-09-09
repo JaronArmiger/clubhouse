@@ -16,7 +16,7 @@ var helmet = require('helmet');
 var User = require('./models/user');
 
 nconf.file({file: 'config.json'});
-const db_uri = nconf.get('MONGODB_URI');
+const db_uri = nconf.get('MONGODB_URI') || process.env.MONGODB_URI;
 mongoose.connect(db_uri, { 
   useNewUrlParser: true,
   useUnifiedTopology: true
