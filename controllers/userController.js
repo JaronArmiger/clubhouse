@@ -2,6 +2,7 @@ const User = require('../models/user');
 
 const async = require('async');
 const validator = require('express-validator');
+var crypto = require('crypto');
 
 exports.signup_get = (req, res, next) => {
   res.render('user_signup', { title: 'User Signup' })
@@ -30,6 +31,46 @@ exports.signup_post = [
   	const errors = validator.validationResult(req);
   	if (!errors.isEmpty()) {
   	  res.render('user_signup', { title: 'User Signup', errors: errors.array() })
+  	  return;
   	}
+  	const saltHash = genPassword(req.body.password);
+  	const salt = saltHash.salt;
+  	const hash = saltHash.hash;
+  	const newUser = new User({
+  	  first_name: req.body.first_name,
+  	  last_name: req.body.last_name,
+  	  username: req.body.username,
+  	  salt: salt,
+  	  hash: hash
+  	});
+
+  	newUser.save()
+  	  .then((user) => {
+        console.log(user);
+  	  });
+  	res.redirect('/');
   }
 ];
+
+exports.join_get = (req, res, next) => {
+  res.render('user_join', { title: 'Join the Club' });
+}
+
+exports.join_post = (req, res, next) => {
+  
+}
+
+function validPassword(password, hash, salt) {
+  var hashVerify = crypto.pbkdf2Sync(password, salt, 10000, 64, 'sha512').toString('hex');
+  return hash === hashVerify;
+}
+
+function genPassword(password) {
+  var salt = crypto.randomBytes(32).toString('hex');
+  var genHash = crypto.pbkdf2Sync(password, salt, 10000, 64, 'sha512').toString('hex');
+
+  return {
+  	salt: salt,
+  	hash: genHash
+  }
+}

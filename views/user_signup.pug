@@ -20,8 +20,8 @@ block content
       input#first_name.form-control(type='text' name='username' value=(undefined===user ? '' : user.username))
     div.form-group
       label(for='password') Password:
-      input#password.form-control(type='text' name='password' value=(undefined===user ? '' : user.password))
+      input#password.form-control(type='password' name='password' value=(undefined===user ? '' : user.password))
     div.form-group
       label(for='password_confirmation') Confirm Password:
-      input#password.form-control(type='text' name='password_confirmation')
+      input#password.form-control(type='password' name='password_confirmation')
     button(type='submit') Sign up
