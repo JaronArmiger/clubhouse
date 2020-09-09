@@ -38,3 +38,14 @@ exports.create_post = [
   	}
   }
 ]
+
+exports.delete = (req, res, next) => {
+  if (req.isAuthenticated()) {
+    Message.findByIdAndRemove(req.body.messageid, function deleteMessage(err) {
+      if (err) next(err);
+      res.redirect('/');
+    });
+  } else {
+  	res.redirect('/');
+  }
+}

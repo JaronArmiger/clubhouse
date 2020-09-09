@@ -11,3 +11,7 @@ block content
           if currentUser
             p #{message.author.username}
             p #{message.created_at}
+            if currentUser.admin
+              form(method='POST' action='/messages/delete')
+                input#messageid.form-control(type='hidden' name='messageid' require='true' value=message._id)
+                button(type='submit') Delete

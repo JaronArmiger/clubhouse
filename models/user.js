@@ -8,7 +8,8 @@ var UserSchema = new Schema(
   	username: { type: String, required: true, maxLength: 100 },
   	hash: String,
   	salt: String,
-  	membership_status: { type: Boolean, default: false }
+  	membership_status: { type: Boolean, default: false },
+    admin: { type: Boolean, default: true },
   }
 );
 

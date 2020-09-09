@@ -8,4 +8,6 @@ const passport = require('passport');
 router.get('/create', message_controller.create_get);
 router.post('/create', message_controller.create_post);
 
+router.post('/delete', message_controller.delete);
+
 module.exports = router;
