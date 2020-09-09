@@ -6,4 +6,17 @@ html
   body
     if currentUser
       h1 #{currentUser.first_name} is in the MFin building
+      span #{currentUser.membership_status}
     block content
+    if currentUser
+      p
+        a(href='/users/logout') log out
+      p
+        a(href='/users/join') join da club
+    else
+      p
+        a(href='/users/login') log in
+      p
+        a(href='/users/signup') sign up
+    p
+      a(href='/') home

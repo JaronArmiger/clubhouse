@@ -7,8 +7,8 @@ const passport = require('passport');
 /* GET users listing. */
 router.get('/login', user_controller.login_get);
 router.post('/login', passport.authenticate('local', {
-	successRedirect: '/',
-	failureRedirect: '/'
+  successRedirect: '/',
+  failureRedirect: '/'
 }));
 
 router.get('/logout', (req, res, next) => {

@@ -9,10 +9,6 @@ exports.login_get = (req, res, next) => {
   res.render('user_login', { title: 'Join the Club' });
 }
 
-exports.login_post = (req, res, next) => {
-  
-}
-
 exports.signup_get = (req, res, next) => {
   res.render('user_signup', { title: 'User Signup' })
 };
@@ -62,14 +58,38 @@ exports.signup_post = [
 ];
 
 exports.join_get = (req, res, next) => {
-  res.render('user_join', { title: 'Join the Club' });
-}
-
-exports.join_post = (req, res, next) => {
-  if (req.body.secret_code === "Ibuprofen") {
-
+  if (req.isAuthenticated()) {
+    res.render('user_join', { title: 'Join the Club' });
+  } else {
+  	res.redirect('/');
   }
 }
+
+exports.join_post = [
+  validator.sanitizeBody('secret_code').escape(),
+  (req, res, next) => {
+  	const errors = [];
+    if (req.body.secret_code === "Ibuprofen") {
+      User.findOne({ '_id': res.locals.currentUser._id })
+        .exec(function(err, found_user) {
+          if (err) return next(err);
+          if (found_user) {
+          	found_user.membership_status = true;
+          	found_user.save(function(err) {
+          	  if (err) return next(err);
+          	  res.redirect('/');
+          	})
+          } else {
+          	errors.push('User not found');
+          	res.render('user_join', {title: 'Join the Club', errors: errors });
+          }
+        });
+    } else {
+    	errors.push('passcode incorrect');
+      res.render('user_join', {title: 'Join the Club', errors: errors });
+    }
+  }
+]
 
 
 function genPassword(password) {
